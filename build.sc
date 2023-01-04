@@ -1,6 +1,7 @@
 import mill._
 import mill.scalalib._
 import mill.define._
+import mill.scalalib.scalafmt.ScalafmtModule
 
 val AkkaHttpVersion    = "10.2.10"
 val AkkaStreamVersion  = "2.6.20"
@@ -89,9 +90,11 @@ object Shared {
   )
 }
 
-object valinor extends ScalaModule {
+trait CommonScala extends ScalaModule with ScalafmtModule {
   override def scalaVersion: T[String] = T(ScalaVersion)
+}
 
+object valinor extends CommonScala {
   override def scalacOptions: Target[Seq[String]] = T(Shared.scalacOptions)
   override def compileIvyDeps                     = T(Shared.Deps.wartremover)
   override def scalacPluginIvyDeps                = T(Shared.Deps.wartremover)
