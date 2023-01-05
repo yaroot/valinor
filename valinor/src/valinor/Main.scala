@@ -133,7 +133,7 @@ object Main {
           val req  = WOH.Request(ref.get().toVector, Vector.empty, msgs)
           wohHandler(req).map { rp =>
             // roll over the subscribe/unsubscribe control message
-            val sub0  = rp.messages.foldLeft(ref.get()) { (subs, cm) =>
+            val sub0 = rp.messages.foldLeft(ref.get()) { (subs, cm) =>
               cm match {
                 case WOH.ControlMessage(Some(sub), _, _)   => subs.incl(sub)
                 case WOH.ControlMessage(_, Some(ubsub), _) => subs.excl(ubsub)
@@ -141,12 +141,12 @@ object Main {
               }
             }
             ref.set(sub0)
-            // send new messages to the client, channel doesn't matter
-            val sends = rp.messages.map(_.send).collect { case Some(x) => x }
-            sends.collect {
-              case WOH.SendMessage(_, Some(text), _)   => TextMessage(text): Message
-              case WOH.SendMessage(_, _, Some(binary)) => BinaryMessage(binary): Message
-            }
+            rp.messages
+              .collect { case WOH.ControlMessage(_, _, Some(x)) => x }
+              .collect {
+                case WOH.SendMessage(_, Some(text), _)   => TextMessage(text): Message
+                case WOH.SendMessage(_, _, Some(binary)) => BinaryMessage(binary): Message
+              }
           }
         }
         .mapConcat(identity)
