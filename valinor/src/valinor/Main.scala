@@ -8,7 +8,7 @@ import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, Request
 import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.{KillSwitch, KillSwitches, Materializer, OverflowStrategy, SystemMaterializer}
+import akka.stream.{Materializer, OverflowStrategy, SystemMaterializer}
 import io.bullet.borer.compat.akkaHttp.*
 import akka.stream.scaladsl.*
 import com.typesafe.config.{Config, ConfigFactory}
@@ -181,12 +181,7 @@ object Main {
     locally {
       source.runWith(Sink.ignore)
     }
-
-    val flow = Flow
-      .fromSinkAndSource(sink, source)
-      .joinMat(KillSwitches.singleBidi[WOH.Publication, WOH.Publication])(Keep.right)
-
-    Bus(sink, source, flow)
+    Bus(sink, source)
   }
 
   def httpClient(system: ActorSystem): HttpRequest => Future[HttpResponse] = {
@@ -214,15 +209,10 @@ object Main {
 
 case class Bus(
   sink: Sink[WOH.Publication, NotUsed],
-  source: Source[WOH.Publication, NotUsed],
-  flow: Flow[WOH.Publication, WOH.Publication, KillSwitch]
+  source: Source[WOH.Publication, NotUsed]
 )
 
 case class HandlerConfig(
   url: String,
   batchSize: Int
 )
-
-object HandlerConfig {
-  val defaultBatchSize: Int = 10
-}
