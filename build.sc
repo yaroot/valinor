@@ -11,7 +11,7 @@ val LogbackVersion     = "1.4.7"
 val MUnitVersion       = "0.7.29"
 val WartremoverVersion = "3.1.3"
 
-val ScalaVersion = "2.13.10"
+val ScalaVersion = "2.13.11"
 
 object Shared {
   object Deps {
