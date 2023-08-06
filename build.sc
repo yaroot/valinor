@@ -7,7 +7,7 @@ val AkkaHttpVersion    = "10.2.10"
 val AkkaStreamVersion  = "2.6.20"
 val BorerVersion       = "1.8.0"
 val Log4sVersion       = "1.10.0"
-val LogbackVersion     = "1.4.8"
+val LogbackVersion     = "1.4.9"
 val MUnitVersion       = "0.7.29"
 val WartremoverVersion = "3.1.3"
 
