@@ -1,6 +1,5 @@
 import mill._
 import mill.scalalib._
-import mill.define._
 import mill.scalalib.scalafmt.ScalafmtModule
 
 val AkkaHttpVersion    = "10.2.10"
@@ -95,11 +94,10 @@ trait CommonScala extends ScalaModule with ScalafmtModule {
 }
 
 object valinor extends CommonScala {
-  override def scalacOptions: Target[Seq[String]] = T(Shared.scalacOptions)
-  override def compileIvyDeps                     = T(Shared.Deps.wartremover)
-  override def scalacPluginIvyDeps                = T(Shared.Deps.wartremover)
-
-  override def mainClass: T[Option[String]] = T(Some("valinor.Main"))
+  override def scalacOptions: T[Seq[String]] = T(Shared.scalacOptions)
+  override def compileIvyDeps                = T(Shared.Deps.wartremover)
+  override def scalacPluginIvyDeps           = T(Shared.Deps.wartremover)
+  override def mainClass: T[Option[String]]  = T(Some("valinor.Main"))
 
   override def ivyDeps: T[Agg[Dep]] = T(
     Agg.from(
