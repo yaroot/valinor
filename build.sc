@@ -8,7 +8,7 @@ val BorerVersion       = "1.8.0"
 val Log4sVersion       = "1.10.0"
 val LogbackVersion     = "1.4.11"
 val MUnitVersion       = "0.7.29"
-val WartremoverVersion = "3.1.4"
+val WartremoverVersion = "3.1.5"
 
 val ScalaVersion = "2.13.12"
 
