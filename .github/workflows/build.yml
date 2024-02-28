@@ -16,7 +16,7 @@ jobs:
         ./millw valinor.compile
         ./millw valinor.assembly
         mv out/valinor/assembly.dest/out.jar valinor.assembly.jar
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: assembly
         path: valinor.assembly.jar
